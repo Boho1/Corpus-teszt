@@ -1,76 +1,54 @@
 <!doctype html>
-<html>
-    <head>
+<?php include('server.php') ?>
+<html lang="hu">
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        
+
     <title>Corpus</title>
-        <link href="style.scss" type="text/css" rel="stylesheet">
-    </head>
-    <body>
-        <div class="content">
+  </head>
+  <body>
+  <form class="vh-100" method="post" style="background-color: #2779e2;">
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-xl-9">
 
-            <form method="post" action="">
-                <input type="text" name="feedurl" placeholder="Kérem az URL címet..">&nbsp;<input type="submit" value="Keresés" name="submit">
-            </form>
-    <?php
+        <h1 class="text-white mb-4">Regisztrálás</h1>
 
-        $url = "http://makitweb.com/feed/";
-        if(isset($_POST['submit'])){
-            if($_POST['feedurl'] != ''){
-                $url = $_POST['feedurl'];
-            }
-        }
+        <div class="card" style="border-radius: 15px;">
+          <div class="card-body">
 
-        $invalidurl = false;
-        if(@simplexml_load_file($url)){
-            $feeds = simplexml_load_file($url);
-        }else{
-            $invalidurl = true;
-            echo "<h2>Érvénytelen URL cím.</h2>";
-        }
-
-
-        $i=0;
-        if(!empty($feeds)){
-
-
-            $site = $feeds->channel->title;
-            $sitelink = $feeds->channel->link;
-
-            echo "<h1>".$site."</h1>";
-            foreach ($feeds->channel->item as $item) {
-
-                $title = $item->title;
-                $link = $item->link;
-                $description = $item->description;
-                $postDate = $item->pubDate;
-                $pubDate = date('D, d M Y',strtotime($postDate));
-
-
-                if($i>=10) break;
-        ?>
-                <div class="post">
-                    <div class="post-head">
-                        <h2><a class="feed_title" href="<?php echo $link; ?>"><?php echo $title; ?></a></h2>
-                        <span><?php echo $pubDate; ?></span>
-                    </div>
-                    <div class="post-content">
-                        <?php echo implode(' ', array_slice(explode(' ', $description), 0, 20)) . "..."; ?> <a href="<?php echo $link; ?>">Még több infó</a>
-                    </div>
-                </div>
-
-                <?php
-                $i++;
-            }
-        }else{
-            if(!$invalidurl){
-                echo "<h2>Nem találtunk adatot!</h2>";
-            }
-        }
-    ?>
+            <div class="row align-items-center pt-4 pb-3">
+              <div class="col-md-3 ps-5">
+                <h6 class="mb-0">Teljesnév</h6>
+              </div>
+              <div class="col-md-9 pe-5">
+                <input type="text" name="name" class="form-control form-control-lg" required />
+              </div>
+            </div>
+            <hr class="mx-n3">
+            <div class="row align-items-center py-3">
+              <div class="col-md-3 ps-5">
+                <h6 class="mb-0">Jelszó</h6>
+              </div>
+              <div class="col-md-9 pe-5">
+                <input type="password" name="password" class="form-control form-control-lg" required/>
+              </div>
+            </div>
+            <hr class="mx-n3">
+            <div class="px-5 py-4">
+              <button type="submit" name="reg_user" class="btn btn-primary btn-lg">Regisztráció</button>
+            </div>
+          </div>
         </div>
-    </body>
+      </div>
+    </div>
+  </div>
+</form>
+
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  </body>
 </html>
 
